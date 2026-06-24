@@ -36,13 +36,6 @@ live over the WebSocket as it runs; a crisis signal can short-circuit the whole 
   <img src="docs/architecture.gif" alt="Sarathi turn pipeline — each agent node lights up as it runs" width="540"/>
 </p>
 
-```
-START ─▶ input_guard ──crisis?──▶ crisis_response ─┐
-             │ continue                            ├─▶ output_guard ─▶ memory_write ─▶ END
-             ▼                                      │
-   understanding ─▶ memory_recall ─▶ retrieve ─▶ compose ─▶ verify ─▶ output ─┘
-```
-
 | # | Node | Responsibility |
 |:-:|------|----------------|
 | 1 | **input_guard** | Crisis / self-harm detection on **every** turn (tuned to over-trigger); jailbreak & harm flags |

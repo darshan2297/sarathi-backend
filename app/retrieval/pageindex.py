@@ -23,6 +23,9 @@ def retrieve(query: str, corpus: Corpus | None = None, k: int = 3) -> list[dict]
 
     Scoring (Phase 1):
       • +3 per token shared with a theme's name/problem-examples (theme_map hint)
+      • + a small curator-order bonus when a theme matches, so the verse the (human-reviewed,
+        plan §7.2) theme_map lists FIRST leads its theme — primary vs. secondary is a curation
+        decision, not an accident of tag counts.
       • +1 per token shared with a verse's tags
     Ties broken by corpus order (stable, deterministic).
     """
@@ -40,9 +43,13 @@ def retrieve(query: str, corpus: Corpus | None = None, k: int = 3) -> list[dict]
             theme_tokens |= _tokens(ex)
         overlap = len(q & theme_tokens)
         if overlap:
-            for vid in theme.get("verses", []):
+            verses = theme.get("verses", [])
+            for idx, vid in enumerate(verses):
                 if vid in scores:
-                    scores[vid] += 3 * overlap
+                    # strong topical signal, plus a bounded primacy nudge for the curated order
+                    # (enough to lead its own theme over tag-count noise; too small to let a
+                    # tertiary verse of a weak theme outrank the primary of the matched one)
+                    scores[vid] += 3 * overlap + max(0, 3 - idx) * 2
 
     # per-verse tag match
     for vid in corpus.all_ids:
