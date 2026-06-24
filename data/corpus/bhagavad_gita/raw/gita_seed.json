@@ -1,0 +1,201 @@
+[
+  {
+    "chapter": 2,
+    "verse": 14,
+    "sanskrit": "मात्रास्पर्शास्तु कौन्तेय शीतोष्णसुखदुःखदाः।\nआगमापायिनोऽनित्यास्तांस्तितिक्षस्व भारत॥",
+    "transliteration": "mātrā-sparśās tu kaunteya śītoṣṇa-sukha-duḥkha-dāḥ\nāgamāpāyino 'nityās tāṁs titikṣasva bhārata",
+    "word_meanings_hi": "मात्रास्पर्शाः = इन्द्रिय-विषयों का संयोग; शीत-उष्ण-सुख-दुःख-दाः = सर्दी-गर्मी और सुख-दुःख देने वाले; आगम-अपायिनः = आने-जाने वाले; अनित्याः = अनित्य; तितिक्षस्व = सहन कर",
+    "translation_hi": "हे कुन्तीपुत्र! इन्द्रियों और विषयों के संयोग से सर्दी-गर्मी और सुख-दुःख उत्पन्न होते हैं। ये आते-जाते रहते हैं और अनित्य हैं; इसलिए हे भारत, इन्हें सहन करना सीख।",
+    "translation_en": "O son of Kunti, contact of the senses with their objects gives rise to cold and heat, pleasure and pain. These come and go and are impermanent; therefore endure them, O Bharata.",
+    "chapter_theme_hi": "सांख्य योग (ज्ञान का योग)",
+    "tags": [
+      "सहनशीलता",
+      "सुख-दुःख",
+      "अनित्यता",
+      "धैर्य",
+      "tolerance",
+      "impermanence"
+    ]
+  },
+  {
+    "chapter": 2,
+    "verse": 20,
+    "sanskrit": "न जायते म्रियते वा कदाचिन्नायं भूत्वा भविता वा न भूयः।\nअजो नित्यः शाश्वतोऽयं पुराणो न हन्यते हन्यमाने शरीरे॥",
+    "transliteration": "na jāyate mriyate vā kadācin nāyaṁ bhūtvā bhavitā vā na bhūyaḥ\najo nityaḥ śāśvato 'yaṁ purāṇo na hanyate hanyamāne śarīre",
+    "word_meanings_hi": "न जायते = न जन्म लेती है; न म्रियते = न मरती है; अजः = अजन्मा; नित्यः = नित्य; शाश्वतः = शाश्वत; पुराणः = पुरातन; न हन्यते = नष्ट नहीं होती; हन्यमाने शरीरे = शरीर के मारे जाने पर",
+    "translation_hi": "यह आत्मा न कभी जन्म लेती है और न कभी मरती है; न यह पहले हुई और फिर न रहेगी — ऐसा भी नहीं। यह अजन्मा, नित्य, शाश्वत और पुरातन है। शरीर के नष्ट होने पर भी इसका नाश नहीं होता।",
+    "translation_en": "The soul is never born, nor does it ever die; nor having once been, does it cease to be. It is unborn, eternal, ever-existing and primeval; it is not slain when the body is slain.",
+    "chapter_theme_hi": "सांख्य योग (ज्ञान का योग)",
+    "tags": [
+      "आत्मा",
+      "मृत्यु",
+      "शोक",
+      "अमरता",
+      "grief",
+      "death",
+      "soul"
+    ]
+  },
+  {
+    "chapter": 2,
+    "verse": 22,
+    "sanskrit": "वासांसि जीर्णानि यथा विहाय नवानि गृह्णाति नरोऽपराणि।\nतथा शरीराणि विहाय जीर्णान्यन्यानि संयाति नवानि देही॥",
+    "transliteration": "vāsāṁsi jīrṇāni yathā vihāya navāni gṛhṇāti naro 'parāṇi\ntathā śarīrāṇi vihāya jīrṇāny anyāni saṁyāti navāni dehī",
+    "word_meanings_hi": "वासांसि = वस्त्र; जीर्णानि = पुराने; विहाय = त्यागकर; नवानि = नए; गृह्णाति = धारण करता है; तथा = वैसे ही; शरीराणि = शरीरों को; देही = देहधारी आत्मा",
+    "translation_hi": "जैसे मनुष्य पुराने वस्त्रों को त्यागकर नए वस्त्र धारण कर लेता है, वैसे ही देहधारी आत्मा पुराने शरीरों को छोड़कर नए शरीरों को धारण करती है।",
+    "translation_en": "As a person casts off worn-out garments and puts on new ones, so the embodied soul casts off worn-out bodies and enters new ones.",
+    "chapter_theme_hi": "सांख्य योग (ज्ञान का योग)",
+    "tags": [
+      "आत्मा",
+      "मृत्यु",
+      "शोक",
+      "पुनर्जन्म",
+      "grief",
+      "death",
+      "soul"
+    ]
+  },
+  {
+    "chapter": 2,
+    "verse": 47,
+    "sanskrit": "कर्मण्येवाधिकारस्ते मा फलेषु कदाचन।\nमा कर्मफलहेतुर्भूर्मा ते सङ्गोऽस्त्वकर्मणि॥",
+    "transliteration": "karmaṇy-evādhikāras te mā phaleṣu kadācana\nmā karma-phala-hetur bhūr mā te saṅgo 'stv akarmaṇi",
+    "word_meanings_hi": "कर्मणि एव = कर्म में ही; अधिकारः ते = तेरा अधिकार; मा फलेषु कदाचन = फलों में कभी नहीं; मा कर्मफलहेतुः भूः = फल का कारण मत बन; मा ते सङ्गः अकर्मणि = कर्म न करने में भी तेरी आसक्ति न हो",
+    "translation_hi": "तेरा अधिकार केवल कर्म करने में है, उसके फलों में कभी नहीं। इसलिए न तो कर्म के फल का हेतु बन, और न ही कर्म न करने में तेरी आसक्ति हो।",
+    "translation_en": "You have a right to action alone, never to its fruits. Let not the fruits of action be your motive, nor let your attachment be to inaction.",
+    "chapter_theme_hi": "कर्म योग",
+    "tags": [
+      "कर्म",
+      "अनासक्ति",
+      "परिणाम-की-चिंता",
+      "चिंता",
+      "कर्तव्य",
+      "duty",
+      "detachment",
+      "anxiety-about-results"
+    ]
+  },
+  {
+    "chapter": 2,
+    "verse": 48,
+    "sanskrit": "योगस्थः कुरु कर्माणि सङ्गं त्यक्त्वा धनञ्जय।\nसिद्ध्यसिद्ध्योः समो भूत्वा समत्वं योग उच्यते॥",
+    "transliteration": "yoga-sthaḥ kuru karmāṇi saṅgaṁ tyaktvā dhanañjaya\nsiddhy-asiddhyoḥ samo bhūtvā samatvaṁ yoga ucyate",
+    "word_meanings_hi": "योगस्थः = योग में स्थित होकर; कुरु कर्माणि = कर्म कर; सङ्गं त्यक्त्वा = आसक्ति त्यागकर; सिद्धि-असिद्ध्योः = सफलता-असफलता में; समः = समान; समत्वं योग उच्यते = समता ही योग कहलाती है",
+    "translation_hi": "हे धनंजय! आसक्ति को त्यागकर, सफलता और असफलता में समान भाव रखते हुए योग में स्थित होकर कर्म कर। इसी समता को योग कहा जाता है।",
+    "translation_en": "Established in yoga, O Dhananjaya, perform your actions giving up attachment, remaining equal in success and failure. This equanimity is called yoga.",
+    "chapter_theme_hi": "कर्म योग",
+    "tags": [
+      "समता",
+      "अनासक्ति",
+      "कर्म",
+      "संतुलन",
+      "equanimity",
+      "detachment"
+    ]
+  },
+  {
+    "chapter": 2,
+    "verse": 62,
+    "sanskrit": "ध्यायतो विषयान्पुंसः सङ्गस्तेषूपजायते।\nसङ्गात्सञ्जायते कामः कामात्क्रोधोऽभिजायते॥",
+    "transliteration": "dhyāyato viṣayān puṁsaḥ saṅgas teṣūpajāyate\nsaṅgāt sañjāyate kāmaḥ kāmāt krodho 'bhijāyate",
+    "word_meanings_hi": "ध्यायतः विषयान् = विषयों का चिंतन करते हुए; पुंसः = पुरुष की; सङ्गः = आसक्ति; उपजायते = उत्पन्न होती है; सङ्गात् कामः = आसक्ति से कामना; कामात् क्रोधः = कामना से क्रोध",
+    "translation_hi": "विषयों का बार-बार चिंतन करते रहने से मनुष्य की उनमें आसक्ति हो जाती है; आसक्ति से कामना जन्म लेती है, और कामना (के बाधित होने) से क्रोध उत्पन्न होता है।",
+    "translation_en": "While contemplating sense objects, a person develops attachment to them; from attachment springs desire, and from desire arises anger.",
+    "chapter_theme_hi": "सांख्य योग (ज्ञान का योग)",
+    "tags": [
+      "क्रोध",
+      "कामना",
+      "आसक्ति",
+      "मन",
+      "anger",
+      "desire",
+      "attachment"
+    ]
+  },
+  {
+    "chapter": 2,
+    "verse": 63,
+    "sanskrit": "क्रोधाद्भवति सम्मोहः सम्मोहात्स्मृतिविभ्रमः।\nस्मृतिभ्रंशाद् बुद्धिनाशो बुद्धिनाशात्प्रणश्यति॥",
+    "transliteration": "krodhād bhavati sammohaḥ sammohāt smṛti-vibhramaḥ\nsmṛti-bhraṁśād buddhi-nāśo buddhi-nāśāt praṇaśyati",
+    "word_meanings_hi": "क्रोधात् सम्मोहः = क्रोध से मोह; सम्मोहात् स्मृतिविभ्रमः = मोह से स्मृति का भ्रम; स्मृतिभ्रंशात् बुद्धिनाशः = स्मृति-नाश से बुद्धि का नाश; बुद्धिनाशात् प्रणश्यति = बुद्धि-नाश से मनुष्य का पतन",
+    "translation_hi": "क्रोध से मोह उत्पन्न होता है, मोह से स्मृति भ्रमित होती है, स्मृति के नष्ट होने से बुद्धि नष्ट हो जाती है, और बुद्धि के नष्ट होने पर मनुष्य का पतन हो जाता है।",
+    "translation_en": "From anger comes delusion; from delusion, confusion of memory; from confused memory, the ruin of reason; and from the ruin of reason a person is utterly lost.",
+    "chapter_theme_hi": "सांख्य योग (ज्ञान का योग)",
+    "tags": [
+      "क्रोध",
+      "मोह",
+      "विवेक",
+      "पतन",
+      "anger",
+      "delusion",
+      "discernment"
+    ]
+  },
+  {
+    "chapter": 3,
+    "verse": 35,
+    "sanskrit": "श्रेयान्स्वधर्मो विगुणः परधर्मात्स्वनुष्ठितात्।\nस्वधर्मे निधनं श्रेयः परधर्मो भयावहः॥",
+    "transliteration": "śreyān sva-dharmo viguṇaḥ para-dharmāt sv-anuṣṭhitāt\nsva-dharme nidhanaṁ śreyaḥ para-dharmo bhayāvahaḥ",
+    "word_meanings_hi": "श्रेयान् = श्रेष्ठ; स्वधर्मः विगुणः = गुणरहित अपना धर्म; परधर्मात् स्वनुष्ठितात् = भलीभाँति किए गए दूसरे के धर्म से; स्वधर्मे निधनं श्रेयः = अपने धर्म में मृत्यु भी कल्याणकारी; परधर्मः भयावहः = दूसरे का धर्म भय देने वाला",
+    "translation_hi": "भलीभाँति आचरण किए गए दूसरे के धर्म की अपेक्षा, गुणरहित होने पर भी अपना धर्म कहीं अधिक श्रेष्ठ है। अपने धर्म में मृत्यु भी कल्याणकारी है, जबकि दूसरे का धर्म भय देने वाला है।",
+    "translation_en": "Better is one's own duty, though imperfectly performed, than the duty of another well performed. Better is death in one's own duty; the duty of another is fraught with fear.",
+    "chapter_theme_hi": "कर्म योग",
+    "tags": [
+      "स्वधर्म",
+      "उद्देश्य",
+      "तुलना",
+      "दिशा",
+      "purpose",
+      "comparison",
+      "authenticity"
+    ]
+  },
+  {
+    "chapter": 6,
+    "verse": 26,
+    "sanskrit": "यतो यतो निश्चरति मनश्चञ्चलमस्थिरम्।\nततस्ततो नियम्यैतदात्मन्येव वशं नयेत्॥",
+    "transliteration": "yato yato niścarati manaś cañcalam asthiram\ntatas tato niyamyaitad ātmany eva vaśaṁ nayet",
+    "word_meanings_hi": "यतः यतः = जहाँ-जहाँ से; निश्चरति = भटकता है; मनः = मन; चञ्चलम् = चंचल; अस्थिरम् = अस्थिर; ततः ततः = वहाँ-वहाँ से; नियम्य = रोककर; एतत् = इसको; आत्मनि एव = आत्मा/स्वयं में ही; वशम् नयेत् = वश में ले आए",
+    "translation_hi": "यह चंचल और अस्थिर मन जहाँ-जहाँ भी भटक जाए, वहाँ-वहाँ से उसे धीरे से रोककर बार-बार अपने ही वश में — आत्मा के अधीन — ले आना चाहिए।",
+    "translation_en": "From wherever the restless, unsteady mind wanders away, from there one should restrain it and bring it back under the control of the Self.",
+    "chapter_theme_hi": "ध्यान योग (आत्मसंयम का योग)",
+    "tags": [
+      "मन",
+      "चंचलता",
+      "अस्थिरता",
+      "बेचैनी",
+      "एकाग्रता",
+      "ध्यान",
+      "अभ्यास",
+      "restless mind",
+      "focus",
+      "wandering mind",
+      "concentration",
+      "overthinking"
+    ]
+  },
+  {
+    "chapter": 6,
+    "verse": 35,
+    "sanskrit": "असंशयं महाबाहो मनो दुर्निग्रहं चलम्।\nअभ्यासेन तु कौन्तेय वैराग्येण च गृह्यते॥",
+    "transliteration": "asaṁśayaṁ mahā-bāho mano durnigrahaṁ calam\nabhyāsena tu kaunteya vairāgyeṇa ca gṛhyate",
+    "word_meanings_hi": "असंशयम् = नि:संदेह; महाबाहो = हे महाबाहु; मनः = मन; दुर्निग्रहम् = वश में करना कठिन; चलम् = चंचल; अभ्यासेन = अभ्यास से; तु = परन्तु; कौन्तेय = हे कुन्तीपुत्र; वैराग्येण = वैराग्य (अनासक्ति) से; च = और; गृह्यते = वश में किया जाता है",
+    "translation_hi": "हे महाबाहु! नि:संदेह मन चंचल है और इसे वश में करना कठिन है; परन्तु हे कुन्तीपुत्र, निरंतर अभ्यास और वैराग्य से इसे धीरे-धीरे वश में किया जा सकता है।",
+    "translation_en": "Undoubtedly, O mighty-armed one, the mind is restless and hard to restrain; but by practice and by detachment, O son of Kunti, it can be brought under control.",
+    "chapter_theme_hi": "ध्यान योग (आत्मसंयम का योग)",
+    "tags": [
+      "मन",
+      "चंचलता",
+      "बेचैनी",
+      "अभ्यास",
+      "वैराग्य",
+      "एकाग्रता",
+      "धैर्य",
+      "restless mind",
+      "focus",
+      "discipline",
+      "practice",
+      "overthinking"
+    ]
+  }
+]

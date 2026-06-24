@@ -1,0 +1,65 @@
+"""REST endpoints (plan §10) — non-conversational only. All chat goes over the WebSocket."""
+
+from __future__ import annotations
+
+import uuid
+
+from fastapi import APIRouter, HTTPException
+from pydantic import BaseModel
+
+from app.core.budget import latency_recorder
+from app.core.config import settings
+from app.core.metrics import metrics
+from app.db.store import get_store
+from app.llm import get_client
+from app.retrieval.corpus import get_corpus
+
+router = APIRouter()
+
+
+@router.get("/health")
+async def health() -> dict:
+    corpus = get_corpus()
+    client = get_client()
+    llm = client.health() if hasattr(client, "health") else {"provider": settings.llm_provider}
+    return {
+        "status": "ok",
+        "app": settings.app_name,
+        "llm_provider": settings.llm_provider,
+        "llm": llm,
+        "corpus_verses": len(corpus.all_ids),
+        "latency": latency_recorder.snapshot(),
+    }
+
+
+@router.get("/metrics")
+async def get_metrics() -> dict:
+    """Operational metrics (plan §10): turn counts by mode, grounded/degraded/crisis rates,
+    dropped verses, provider + retrieval-source usage, latency p50/p95, cache."""
+    client = get_client()
+    llm = client.health() if hasattr(client, "health") else {}
+    return {**metrics.snapshot(), "llm": llm}
+
+
+@router.post("/session")
+async def session() -> dict:
+    """Issue a guest session id (plan §1 — guest is ephemeral; nothing persisted server-side)."""
+    return {"session_id": f"guest-{uuid.uuid4().hex[:12]}", "tier": "guest"}
+
+
+class AuthRequest(BaseModel):
+    email: str
+
+
+@router.post("/auth")
+async def auth(req: AuthRequest) -> dict:
+    """Email login → member tier with persistent episodic memory (plan §1, §6).
+
+    NOTE (prod): this is a minimal identity stub. Production needs real auth (OTP/magic-link),
+    consent capture, and encryption-at-rest for the sensitive episodic data.
+    """
+    email = req.email.strip()
+    if "@" not in email or "." not in email:
+        raise HTTPException(status_code=400, detail="valid email required")
+    user_id = await get_store().get_or_create_user(email)
+    return {"user_id": user_id, "tier": "member"}

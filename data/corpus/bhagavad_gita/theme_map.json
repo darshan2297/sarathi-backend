@@ -1,0 +1,65 @@
+{
+  "_meta": {
+    "status": "SEED — NOT yet reviewed",
+    "review_required": "Must be reviewed and approved by a Gita-literate person before any public launch. A wrong problem→verse mapping produces confident, fluent, WRONG spiritual guidance — the hardest risk in the system (plan §7.2). This is the primary defense against misapplication, not optional.",
+    "usage": "Hint for the PageIndex retriever (plan §5) and for caching common journeys. The retriever may still reason beyond these mappings.",
+    "review_notes": [
+      "2026-06-24: Added 'चंचल मन / restless, overthinking mind / cannot focus' → BG6.35, BG6.26. Triage finding: a 'मन बेचैन रहता है, ध्यान नहीं लगता' query was answered with BG2.62 (the desire→anger cascade) — a confident, fluent MISAPPLICATION. BG6.35 (अभ्यासेन तु…वैराग्येण च गृह्यते) is Krishna's literal reply to this exact complaint. Each theme below now carries an 'avoid' note for the look-alike verse it must NOT borrow."
+    ]
+  },
+  "themes": [
+    {
+      "theme": "चंचल मन / restless overthinking mind / cannot focus / racing thoughts",
+      "problem_examples": [
+        "मेरा मन बहुत बेचैन रहता है, किसी काम में शांति से ध्यान नहीं लगा पाता",
+        "हर समय कुछ न कुछ सोचता रहता हूँ, रात को भी विचार रुकते नहीं",
+        "मन चंचल और अस्थिर है, एकाग्रता नहीं बन पाती, बहुत ज़्यादा सोचता हूँ",
+        "ध्यान भटकता रहता है, मन को एक जगह टिका नहीं पाता"
+      ],
+      "verses": ["BG6.35", "BG6.26"],
+      "avoid": "NOT BG2.62 — that is the दृश्य→आसक्ति→कामना→क्रोध (desire/anger) cascade, reserved for the क्रोध theme. Restlessness/overthinking is answered by अभ्यास + वैराग्य (6.35) and gently bringing the wandering mind back (6.26)."
+    },
+    {
+      "theme": "क्रोध / anger / betrayal",
+      "problem_examples": [
+        "किसी ने धोखा दिया और गुस्सा शांत नहीं होता",
+        "बार-बार क्रोध आता है, गुस्से में नींद नहीं आती"
+      ],
+      "verses": ["BG2.62", "BG2.63", "BG2.47"],
+      "avoid": "Use BG2.62/2.63 ONLY when the core feeling is anger/resentment. Do NOT use them for a merely restless or overthinking mind (see the चंचल मन theme → BG6.35)."
+    },
+    {
+      "theme": "शोक / grief / loss / death",
+      "problem_examples": [
+        "किसी अपने का देहांत हो गया, स्वीकार नहीं कर पा रहा",
+        "मृत्यु का भय"
+      ],
+      "verses": ["BG2.20", "BG2.22"]
+    },
+    {
+      "theme": "चिंता-परिणाम / anxiety about results / outcomes",
+      "problem_examples": [
+        "मेहनत के बावजूद परिणाम का डर, नींद नहीं आती",
+        "भविष्य की चिंता"
+      ],
+      "verses": ["BG2.47", "BG2.48"],
+      "avoid": "This is fear about OUTCOMES/results. A restless mind with no specific outcome-fear belongs to the चंचल मन theme (BG6.35)."
+    },
+    {
+      "theme": "दिशाहीनता / lack of purpose / comparison with others",
+      "problem_examples": [
+        "समझ नहीं आता ज़िंदगी का क्या करूँ",
+        "सब आगे हैं, मैं ही पीछे/भटका हूँ"
+      ],
+      "verses": ["BG3.35"]
+    },
+    {
+      "theme": "सुख-दुःख / emotional ups and downs / easily disturbed",
+      "problem_examples": [
+        "छोटी-छोटी बातों से मन अशांत हो जाता है",
+        "जीवन के उतार-चढ़ाव से घबराहट"
+      ],
+      "verses": ["BG2.14", "BG2.48"]
+    }
+  ]
+}
