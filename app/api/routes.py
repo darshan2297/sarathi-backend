@@ -3,8 +3,9 @@
 from __future__ import annotations
 
 import uuid
+from functools import lru_cache
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Response
 from pydantic import BaseModel
 
 from app.core.budget import latency_recorder
@@ -12,6 +13,7 @@ from app.core.config import settings
 from app.core.metrics import metrics
 from app.db.store import get_store
 from app.llm import get_client
+from app.retrieval.book import get_book_index
 from app.retrieval.corpus import get_corpus
 
 router = APIRouter()
@@ -39,6 +41,34 @@ async def get_metrics() -> dict:
     client = get_client()
     llm = client.health() if hasattr(client, "health") else {}
     return {**metrics.snapshot(), "llm": llm}
+
+
+# --- book viewer (plan §11): the clickable source page behind every citation ---
+
+@router.get("/book/meta")
+async def book_meta() -> dict:
+    book = get_book_index()
+    return {"title": book._tree.get("title", ""), "page_count": book.page_count,
+            "source_pdf": book._tree.get("source_pdf", "")}
+
+
+@lru_cache(maxsize=256)
+def _render_page(n: int, dpi: int) -> bytes:
+    return get_book_index().render_png(n, dpi)
+
+
+@router.get("/book/page/{n}")
+async def book_page(n: int) -> Response:
+    """Render PDF page `n` (1-based) to PNG so the UI can open the exact cited page. Cached."""
+    book = get_book_index()
+    if not (1 <= n <= book.page_count):
+        raise HTTPException(status_code=404, detail=f"page out of range 1..{book.page_count}")
+    try:
+        png = _render_page(n, settings.book_page_dpi)
+    except Exception as exc:  # pragma: no cover - defensive
+        raise HTTPException(status_code=500, detail=f"render failed: {exc}") from exc
+    return Response(content=png, media_type="image/png",
+                    headers={"Cache-Control": "public, max-age=86400"})
 
 
 @router.post("/session")

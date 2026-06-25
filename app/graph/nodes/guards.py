@@ -9,13 +9,17 @@ output_guard  : final pass — append a gentle disclaimer on sensitive topics, s
 
 from __future__ import annotations
 
+from app.core.i18n import disclaimer as localized_disclaimer
 from app.core.logging import get_logger
 from app.graph.state import GraphState
 from app.guardrails.crisis import (
+    CRISIS_STICKY_TURNS,
     HARM_OTHERS_RESPONSE_HI,
+    classify_crisis_followup,
     crisis_payload,
     detect_crisis,
     detect_harm_to_others,
+    turns_since_crisis,
 )
 from app.guardrails.safety import detect_jailbreak
 from app.llm.base import VERSE_PLACEHOLDER
@@ -23,17 +27,27 @@ from app.llm.base import VERSE_PLACEHOLDER
 log = get_logger("sarathi.guard")
 
 _SENSITIVE_EMOTIONS = {"शोक", "क्रोध"}
-_DISCLAIMER_HI = ("(कोमल स्मरण: मैं गीता से राह दिखाता हूँ; यदि यह पीड़ा बहुत भारी लगे तो किसी अपने "
-                  "या किसी विशेषज्ञ से बात करने में संकोच मत करना।)")
 
 
 async def input_guard_node(state: GraphState) -> dict:
     msg = state["user_message"]
+    history = state.get("thread_history", [])
     flags: list[str] = []
 
-    if detect_crisis(msg):
-        log.warning("crisis_detected", turn_id=state.get("turn_id"))
-        return {"safety_flag": True, "route": "crisis", "flags": ["crisis"]}
+    # Crisis stickiness is BOUNDED (cloud QA #2): right after a crisis we never fall into the
+    # cheerful normal close, but we also don't latch the helpline onto every later greeting for the
+    # whole session. A fresh crisis re-arms the entry message; for up to CRISIS_STICKY_TURNS
+    # follow-up turns we classify into the right exit response; after that the thread is released.
+    fresh_crisis = detect_crisis(msg)
+    since = turns_since_crisis(history)
+    if fresh_crisis or (since is not None and since < CRISIS_STICKY_TURNS):
+        if fresh_crisis:
+            phase = "entry"
+        else:
+            phase = {"not_safe": "escalate", "goodbye": "safe_close",
+                     "still_talking": "support"}[classify_crisis_followup(msg)]
+        log.warning("crisis_route", turn_id=state.get("turn_id"), phase=phase, fresh=fresh_crisis)
+        return {"safety_flag": True, "route": "crisis", "crisis_phase": phase, "flags": ["crisis"]}
 
     if detect_jailbreak(msg):
         flags.append("jailbreak")
@@ -46,7 +60,10 @@ async def input_guard_node(state: GraphState) -> dict:
 
 
 async def crisis_response_node(state: GraphState) -> dict:
-    payload = crisis_payload()
+    phase = state.get("crisis_phase", "entry")
+    # vary SUPPORT wording per turn so a flagged thread never loops identical text
+    variant = len(state.get("thread_history", [])) // 2
+    payload = crisis_payload(phase, variant=variant)
     return {
         "response_mode": "safety",
         "rendered_text": payload["message"],
@@ -71,8 +88,9 @@ async def output_guard_node(state: GraphState) -> dict:
 
     updates: dict = {"rendered_text": text}
 
-    # gentle disclaimer on sensitive emotions (not on the crisis path — that has its own message)
+    # gentle disclaimer on sensitive emotions (not on the crisis path — that has its own message),
+    # in the reply language so the answer isn't language-mixed (QA H-2)
     if not state.get("safety_flag") and state.get("emotion") in _SENSITIVE_EMOTIONS:
-        updates["disclaimer"] = _DISCLAIMER_HI
+        updates["disclaimer"] = localized_disclaimer(state.get("language"))
 
     return updates

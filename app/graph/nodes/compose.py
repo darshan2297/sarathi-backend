@@ -14,6 +14,8 @@ async def compose_node(state: GraphState) -> dict:
         candidates=state.get("candidates", []),
         memories=state.get("memories", []),
         response_mode=state.get("response_mode", "open"),
+        intent=state.get("intent", "life-problem"),
+        language=state.get("language", "hi"),
         turn_index=len(state.get("thread_history", [])),
     )
     result = await get_client().compose(ctx, state["budget"])

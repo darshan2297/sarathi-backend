@@ -73,6 +73,16 @@ def test_greeting_turn_has_no_verse():
     assert not any(e["type"] == "verse_card" for e in events)  # no scripture on a hello
 
 
+def test_understanding_reroutes_to_crisis_on_self_harm():
+    # the 2nd safety layer (plan §8): understanding flags self-harm → reroute to crisis_response.
+    # Under the test stub there's no LLM, so this exercises the keyword backstop in the node.
+    out = asyncio.run(understanding_node(
+        {"user_message": "life is pointless, I don't want to be here anymore",
+         "thread_history": [], "budget": _budget()}))
+    assert out.get("safety_flag") is True and out.get("route") == "crisis"
+    assert out.get("crisis_phase") == "entry"
+
+
 def test_understanding_detects_emotion():
     out = asyncio.run(understanding_node(
         {"user_message": "पार्टनर ने धोखा दिया, गुस्सा आता है", "thread_history": [], "budget": _budget()}))
@@ -91,3 +101,41 @@ def test_retrieval_skipped_on_continue():
     out = asyncio.run(retrieval_node(
         {"response_mode": "continue", "concern": "गुस्सा", "user_message": "x", "budget": _budget()}))
     assert out["candidates"] == []
+
+
+def test_retrieval_skipped_on_offtopic():
+    # cloud QA #3 — an off-topic question must NOT get a forced verse
+    out = asyncio.run(retrieval_node(
+        {"response_mode": "open", "intent": "off-topic",
+         "concern": "delhi weather", "user_message": "delhi ka mausam", "budget": _budget()}))
+    assert out["candidates"] == []
+
+
+# --- render: citation injection (cloud QA #4 — no duplicate citation) ---
+
+def test_injected_citation_not_duplicated():
+    from app.graph.render import inject_verse
+    from app.retrieval.corpus import get_corpus
+    corpus = get_corpus()
+    # the model wrongly typed its OWN citation right before the placeholder
+    text = "गहराई में देखो — श्रीमद्भगवद्गीता (२.२०) — {{VERSE}} यही सार है।"
+    rendered, card = inject_verse(text, "BG2.20", corpus)
+    assert rendered.count("श्रीमद्भगवद्गीता") == 1, rendered   # exactly one citation, not two
+    assert "{{VERSE}}" not in rendered and card["id"] == "BG2.20"
+
+
+def test_extra_placeholders_are_dropped():
+    from app.graph.render import inject_verse
+    from app.retrieval.corpus import get_corpus
+    rendered, _ = inject_verse("{{VERSE}} ... और {{VERSE}}", "BG2.20", get_corpus())
+    assert "{{VERSE}}" not in rendered
+    assert rendered.count("«") == 1   # injected exactly once
+
+
+# --- status: no "searching scriptures" on a no-verse turn (cloud QA #6) ---
+
+def test_no_retrieve_status_on_close():
+    events = collect("धन्यवाद, इससे मदद मिली",
+                     history=[{"role": "user", "text": "x"}, {"role": "sarathi", "text": "y"}])
+    status_nodes = [e.get("node") for e in events if e["type"] == "status"]
+    assert "retrieve" not in status_nodes

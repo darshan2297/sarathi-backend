@@ -31,7 +31,7 @@ def main() -> None:
     import uvicorn
 
     host = os.getenv("SARATHI_HOST", "127.0.0.1")
-    port = int(os.getenv("SARATHI_PORT", "8088"))
+    port = int(os.getenv("SARATHI_PORT", "8087"))
     reload = _as_bool(os.getenv("SARATHI_RELOAD", "true"))
 
     # Pass the import string (not the app object) so --reload can re-import the module cleanly.

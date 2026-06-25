@@ -33,6 +33,7 @@ pydantic-settings = ">=2.3"
 
 # Observability (Phase 7)
 structlog = ">=24.1"
+pymupdf = "^1.27.2.3"
 
 [tool.poetry.group.dev.dependencies]
 pytest = ">=8.2"

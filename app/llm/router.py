@@ -95,8 +95,12 @@ class Router:
             (OllamaProvider(settings.ollama_host, settings.ollama_model, settings.ollama_enabled), False),
         ]
 
-    async def _run_chain(self, messages: list[dict], budget: TurnBudget, parse: Callable):
+    async def _run_chain(self, messages: list[dict], budget: TurnBudget, parse: Callable,
+                         cheap: bool = False):
         """Try each healthy provider; `parse(text)` runs INSIDE the try so bad JSON triggers failover.
+
+        `cheap=True` routes classification-style calls (understanding, navigation) to the smaller,
+        faster model on OpenRouter — the big latency lever (plan §10.1) — while compose stays strong.
 
         Returns (parsed, provider_name, degraded) on success, or None if the whole chain is exhausted.
         """
@@ -104,6 +108,8 @@ class Router:
         for provider, is_primary in self._chain:
             if not provider.is_configured:
                 continue
+            # only OpenRouter has a distinct cheap model; others use their single configured model
+            model = settings.openrouter_model_cheap if (cheap and provider.name == "openrouter") else None
             breaker = self._breakers[provider.name]
             if not breaker.allow():
                 log.info("circuit_open_skip", provider=provider.name)
@@ -111,7 +117,7 @@ class Router:
             for attempt in range(self._max_retries + 1):
                 try:
                     text = await provider.complete(
-                        messages, json_mode=True, timeout=settings.request_timeout_s
+                        messages, json_mode=True, timeout=settings.request_timeout_s, model=model
                     )
                     parsed = parse(text)
                     breaker.record_success()
@@ -157,9 +163,11 @@ class Router:
 
         raise ProviderError("all providers unavailable and stub fallback disabled")
 
-    async def complete_json(self, messages: list[dict], budget: TurnBudget) -> dict | None:
-        """Resilient JSON completion for non-compose agents. None → caller uses its own fallback."""
-        out = await self._run_chain(messages, budget, _extract_json)
+    async def complete_json(self, messages: list[dict], budget: TurnBudget,
+                            cheap: bool = False) -> dict | None:
+        """Resilient JSON completion for non-compose agents. None → caller uses its own fallback.
+        `cheap=True` uses the faster/smaller model (classification tasks don't need the big model)."""
+        out = await self._run_chain(messages, budget, _extract_json, cheap=cheap)
         return out[0] if out is not None else None
 
     def health(self) -> dict:

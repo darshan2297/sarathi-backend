@@ -30,8 +30,10 @@ async def verify_node(state: GraphState) -> dict:
     # (esp. small/local) LLM judge produces false negatives that strip valid verses.
     if valid_id and settings.faithfulness_filter_enabled:
         verse = corpus.get_verse(valid_id)
+        # canonical verses carry Hindi meaning; full-book verses fall back to the English gloss
+        meaning = (verse or {}).get("translation_hi") or corpus._book().gloss(valid_id)
         check = await llm_json(
-            build_faithfulness_messages(result.spoken_guidance_hi, verse["translation_hi"]),
+            build_faithfulness_messages(result.spoken_guidance_hi, meaning),
             state["budget"],
         )
         if check is not None and check.get("supports") is False:

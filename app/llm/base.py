@@ -22,7 +22,9 @@ class ComposeContext(BaseModel):
     history: list[dict] = []
     candidates: list[dict] = []  # candidate verse records from the retriever
     memories: list[dict] = []    # recalled past episodes (member tier; plan §6)
-    response_mode: str = "open"  # open | continue | deepen | steer | close
+    response_mode: str = "open"  # open | continue | deepen | steer | close | out_of_scope
+    intent: str = "life-problem"  # life-problem | gita-question | smalltalk | off-topic
+    language: str = "hi"          # hi | hinglish | en | gu — reply language (honour explicit requests)
     turn_index: int = 0
 
 

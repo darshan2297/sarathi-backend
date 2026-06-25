@@ -21,6 +21,10 @@ def main() -> None:
         extra = ""
         if r["kind"] == "retrieval":
             extra = f"  expected~{r['expected']} got {r['got']}"
+            if r.get("forbid"):
+                extra += f"  forbid={r['forbid']} (lead={r['lead']})"
+        elif r["kind"] == "routing":
+            extra = f"  mode={r['got_mode']} (expected {r['expected_mode']}), crisis={r['crisis']}"
         print(f"  {mark} [{r['kind']:<9}] {r['id']}{extra}")
 
     print("─" * 48)
@@ -30,6 +34,8 @@ def main() -> None:
           f"({s['safety_routing']['passed']}/{s['safety_routing']['total']})")
     print(f"  harm routing       : {s['harm_routing']['rate_pct']}%  "
           f"({s['harm_routing']['passed']}/{s['harm_routing']['total']})")
+    print(f"  scope routing      : {s['scope_routing']['rate_pct']}%  "
+          f"({s['scope_routing']['passed']}/{s['scope_routing']['total']})")
     print(f"  verse injection    : {'OK (canonical, structural)' if s['structural_injection_ok'] else 'FAIL'}")
 
     print("\n  Not auto-scored (honest — plan §7.2 / §9):")

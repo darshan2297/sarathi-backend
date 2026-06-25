@@ -8,6 +8,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 BACKEND_DIR = Path(__file__).resolve().parent.parent.parent
 CORPUS_DIR = BACKEND_DIR / "data" / "corpus" / "bhagavad_gita"
+PDF_PATH = BACKEND_DIR / "aessets" / "Bhagavad-Gita As It Is (Original 1972 Edition).pdf"
 
 
 class Settings(BaseSettings):
@@ -18,6 +19,15 @@ class Settings(BaseSettings):
 
     # corpus
     corpus_dir: Path = CORPUS_DIR
+
+    # --- source book / vectorless RAG (plan §5, Phase 3) ---
+    # The full Gita PDF: source of the verse→page map (clickable citations) and the English
+    # passages that ground answers. Built once via scripts/build_pageindex.py.
+    pdf_path: Path = PDF_PATH
+    book_page_dpi: int = 150            # render resolution for GET /book/page/{n}
+    # When True, refine deterministic candidates with the LLM tree-navigator; falls back to the
+    # deterministic gloss/theme matcher when no provider is reachable (keeps the graph keyless).
+    retrieval_use_pageindex: bool = True
 
     # --- LLM provider (plan §9) ---
     # "router" = OpenRouter→Ollama→(stub) failover chain; "stub" = deterministic, no network.

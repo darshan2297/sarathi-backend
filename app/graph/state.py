@@ -21,18 +21,19 @@ class GraphState(TypedDict, total=False):
 
     # --- input guardrail (plan §8) ---
     safety_flag: bool       # crisis / self-harm detected → short-circuit to safety response
+    crisis_phase: str        # entry | escalate | safe_close | support (which crisis template)
     route: str              # "crisis" | "continue"
     flags: list             # non-fatal flags (e.g. "jailbreak") for logging
     safety_payload: dict     # crisis message + helplines (when safety_flag)
     disclaimer: str          # output-guard disclaimer appended for sensitive topics
 
     # --- understanding agent ---
-    language: str           # hi | hinglish | en
+    language: str           # hi | hinglish | en | gu
     intent: str             # life-problem | gita-question | smalltalk | off-topic
     emotion: str
     concern: str
     turn_type: str          # new-topic | follow-up | deeper-request | spiraling | closing
-    response_mode: str      # open | continue | deepen | steer | close
+    response_mode: str      # open | continue | deepen | steer | close | out_of_scope
     depth_level: int
 
     # --- retrieval agent ---

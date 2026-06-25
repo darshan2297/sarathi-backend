@@ -16,6 +16,7 @@ Deliberately NOT auto-scored here (honest, per plan §7.2 / §9):
 from __future__ import annotations
 
 from app.eval.golden import GOLDEN
+from app.graph.nodes.understanding import heuristic_understanding
 from app.graph.render import inject_verse
 from app.guardrails.crisis import detect_crisis, detect_harm_to_others
 from app.retrieval.corpus import get_corpus
@@ -49,11 +50,33 @@ def run_eval(cases: list[dict] | None = None) -> dict:
             results.append({"id": c["id"], "kind": "safety", "pass": detect_crisis(msg)})
         elif c.get("expect_harm"):
             results.append({"id": c["id"], "kind": "harm", "pass": detect_harm_to_others(msg)})
+        elif c.get("expect_mode") or c.get("expect_no_crisis"):
+            # routing guard (triage 2026-06-25), scored against the DETERMINISTIC heuristic — the
+            # always-on safety net (a live model may sample differently, just as safety_routing pins
+            # the keyword detector, not the LLM): out-of-scope professional advice must NOT trip the
+            # crisis path and must reach the right response_mode (e.g. out_of_scope, not open).
+            out = heuristic_understanding(msg)
+            checks = []
+            if c.get("expect_no_crisis"):
+                checks.append(not detect_crisis(msg) and not out.get("safety_flag"))
+            if c.get("expect_mode"):
+                checks.append(out.get("response_mode") == c["expect_mode"])
+            results.append({"id": c["id"], "kind": "routing", "pass": all(checks),
+                            "expected_mode": c.get("expect_mode"),
+                            "got_mode": out.get("response_mode"),
+                            "crisis": bool(out.get("safety_flag") or detect_crisis(msg))})
         elif c.get("expect_verses"):
-            got = {v["id"] for v in retrieve(msg, corpus)}
+            ranked = [v["id"] for v in retrieve(msg, corpus)]
+            got = set(ranked)
+            lead = ranked[0] if ranked else None
             hit = bool(set(c["expect_verses"]) & got)
-            results.append({"id": c["id"], "kind": "retrieval", "pass": hit,
-                            "expected": c["expect_verses"], "got": sorted(got)})
+            # §7.2: a forbidden look-alike verse must never be the CITED (lead) verse.
+            forbid = c.get("forbid_verses", [])
+            forbidden_lead = lead in forbid
+            results.append({"id": c["id"], "kind": "retrieval",
+                            "pass": hit and not forbidden_lead,
+                            "expected": c["expect_verses"], "got": ranked,
+                            "forbid": forbid, "lead": lead})
         else:
             results.append({"id": c["id"], "kind": "offtopic", "pass": True})
 
@@ -68,6 +91,7 @@ def run_eval(cases: list[dict] | None = None) -> dict:
             "retrieval": rate_for("retrieval"),
             "safety_routing": rate_for("safety"),
             "harm_routing": rate_for("harm"),
+            "scope_routing": rate_for("routing"),
             "structural_injection_ok": structural_injection_ok(),
         },
         "not_auto_scored": {

@@ -13,6 +13,7 @@ from typing import AsyncIterator
 
 from app.core.budget import TurnBudget, latency_recorder
 from app.core.config import settings
+from app.core.i18n import step_label
 from app.core.metrics import metrics
 from app.graph.build import build_graph
 from app.graph.render import inject_verse, word_stream  # noqa: F401 (inject_verse re-exported)
@@ -63,7 +64,12 @@ async def run_turn(
                 if isinstance(delta, dict):
                     final.update(delta)
                 if node_name in _STATUS:
-                    yield {"type": "status", "stage": _STATUS[node_name], "node": node_name}
+                    # don't claim "searching the scriptures" on turns where retrieval was skipped
+                    # (greet/continue/steer/close or off-topic) — cosmetic fix, cloud QA #6
+                    if node_name == "retrieve" and not final.get("candidates"):
+                        pass
+                    else:
+                        yield {"type": "status", "stage": _STATUS[node_name], "node": node_name}
                 if node_name == "understanding":
                     yield {"type": "meta", "turn_id": turn_id, "mode": final.get("response_mode"),
                            "intent": final.get("intent"), "emotion": final.get("emotion")}
@@ -86,7 +92,8 @@ async def run_turn(
             yield {"type": "verse_card", **verse_card}
 
         if final.get("practical_step_hi"):
-            for tok in word_stream(f"\n\nआज का छोटा कदम: {final['practical_step_hi']}"):
+            label = step_label(final.get("language"))
+            for tok in word_stream(f"\n\n{label}: {final['practical_step_hi']}"):
                 if delay:
                     await asyncio.sleep(delay)
                 yield {"type": "token", "text": tok}
@@ -104,6 +111,7 @@ async def run_turn(
             "mode": final.get("response_mode"),
             "verse_id": verse_id,
             "citation": corpus.citation(verse_id) if verse_id else None,
+            "pdf_page": corpus.page_for(verse_id) if verse_id else None,
             "grounded": verse_id is not None,
             "verified": final.get("verified"),
             "safety": safety,

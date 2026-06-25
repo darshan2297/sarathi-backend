@@ -1,9 +1,12 @@
 """LangGraph wiring (plan §4, §8). Compiles the Sarathi multi-agent graph.
 
     input_guard ──crisis?──▶ crisis_response ─┐
-         │ continue                           ├─▶ output_guard ─▶ END
-         ▼                                     │
-    understanding → retrieve → compose → verify → output ─┘
+         │ continue                  ▲         ├─▶ output_guard ─▶ END
+         ▼              crisis?       │         │
+    understanding ──────────────────-┘         │
+         │ continue                            │
+         ▼                                      │
+    memory_recall → retrieve → compose → verify → output ─┘
 
 Memory recall/write nodes slot in at Phase 5 without disturbing this path.
 """
@@ -28,6 +31,12 @@ def _route_after_input(state: GraphState) -> str:
     return "crisis" if state.get("safety_flag") else "continue"
 
 
+def _route_after_understanding(state: GraphState) -> str:
+    # second safety gate: the understanding agent can flag indirect/passive self-harm that the
+    # keyword guard missed (plan §8) — reroute to the crisis response before any scripture.
+    return "crisis" if state.get("safety_flag") else "continue"
+
+
 @lru_cache(maxsize=1)
 def build_graph():
     g = StateGraph(GraphState)
@@ -48,7 +57,10 @@ def build_graph():
         {"crisis": "crisis_response", "continue": "understanding"},
     )
     g.add_edge("crisis_response", "output_guard")
-    g.add_edge("understanding", "memory_recall")
+    g.add_conditional_edges(
+        "understanding", _route_after_understanding,
+        {"crisis": "crisis_response", "continue": "memory_recall"},
+    )
     g.add_edge("memory_recall", "retrieve")
     g.add_edge("retrieve", "compose")
     g.add_edge("compose", "verify")

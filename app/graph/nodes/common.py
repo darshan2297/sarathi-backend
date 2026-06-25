@@ -15,13 +15,15 @@ from app.llm import get_client
 log = get_logger("sarathi.graph")
 
 
-async def llm_json(messages: list[dict], budget: Any) -> dict | None:
+async def llm_json(messages: list[dict], budget: Any, cheap: bool = False) -> dict | None:
     client = get_client()
     fn = getattr(client, "complete_json", None)
     if fn is None:
         return None
     try:
-        return await fn(messages, budget)
+        return await fn(messages, budget, cheap=cheap)
+    except TypeError:
+        return await fn(messages, budget)  # client without the cheap kwarg
     except Exception as exc:  # never let an agent's LLM call crash the turn
         log.warning("llm_json_failed", error=str(exc))
         return None
